@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Refract — Advanced Glassmorphism Calculator</title>
+<meta name="description" content="Refract: an advanced glassmorphism calculator with history, themes, keyboard shortcuts, and memory functions." />
+
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+<!-- Fonts: Space Grotesk (display/buttons), JetBrains Mono (numeric readout), Inter (UI labels) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-theme="aurora">
+
+  <!-- Ambient background layers: gradient wash + noise grain, purely decorative -->
+  <div class="bg-scene" aria-hidden="true">
+    <div class="bg-aurora"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <div class="app" id="app">
+
+    <!-- Top bar: brand + utility controls -->
+    <header class="topbar">
+      <div class="brand">
+        <img src="assets/logo.svg" alt="" class="brand__mark" width="28" height="28" />
+        <span class="brand__name">Refract</span>
+      </div>
+
+      <div class="topbar__controls">
+        <button class="icon-btn" id="historyToggle" type="button" aria-expanded="false" aria-controls="historyDrawer" title="History (H)">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M12 8v4l3 2M21 12a9 9 0 1 1-3-6.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3v5h-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="sr-only">Toggle history</span>
+        </button>
+
+        <button class="icon-btn" id="settingsToggle" type="button" aria-expanded="false" aria-controls="settingsPanel" title="Settings">
+          <svg viewBox="0 0 24 24" class="icon"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="sr-only">Toggle settings</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main stage holds calculator + drawer as sibling glass panes -->
+    <main class="stage">
+
+      <!-- Calculator glass panel -->
+      <section class="calculator" id="calculator" aria-label="Calculator">
+
+        <!-- Mode switch: Standard / Scientific -->
+        <div class="mode-switch" role="tablist" aria-label="Calculator mode">
+          <button class="mode-switch__btn is-active" role="tab" aria-selected="true" data-mode="standard" type="button">Standard</button>
+          <button class="mode-switch__btn" role="tab" aria-selected="false" data-mode="scientific" type="button">Scientific</button>
+        </div>
+
+        <!-- Display -->
+        <div class="display">
+          <div class="display__grain" aria-hidden="true"></div>
+          <div class="display__expression" id="expression" aria-live="off">&nbsp;</div>
+          <div class="display__result-row">
+            <span class="display__memory-badge" id="memoryBadge" hidden>M</span>
+            <div class="display__result" id="result" aria-live="polite">0</div>
+          </div>
+        </div>
+
+        <!-- Scientific function row (hidden in standard mode) -->
+        <div class="keys keys--scientific" id="scientificKeys">
+          <button class="key key--fn" data-action="fn" data-value="sin" type="button">sin</button>
+          <button class="key key--fn" data-action="fn" data-value="cos" type="button">cos</button>
+          <button class="key key--fn" data-action="fn" data-value="tan" type="button">tan</button>
+          <button class="key key--fn" data-action="fn" data-value="log" type="button">log</button>
+          <button class="key key--fn" data-action="fn" data-value="ln" type="button">ln</button>
+          <button class="key key--fn" data-action="fn" data-value="sqrt" type="button">√x</button>
+          <button class="key key--fn" data-action="fn" data-value="square" type="button">x²</button>
+          <button class="key key--fn" data-action="fn" data-value="pow" type="button">xʸ</button>
+          <button class="key key--fn" data-action="fn" data-value="pi" type="button">π</button>
+          <button class="key key--fn" data-action="fn" data-value="e" type="button">e</button>
+          <button class="key key--fn" data-action="fn" data-value="fact" type="button">x!</button>
+          <button class="key key--fn" data-action="fn" data-value="inv" type="button">1/x</button>
+        </div>
+
+        <!-- Memory row -->
+        <div class="keys keys--memory">
+          <button class="key key--mem" data-action="mem" data-value="mc" type="button">MC</button>
+          <button class="key key--mem" data-action="mem" data-value="mr" type="button">MR</button>
+          <button class="key key--mem" data-action="mem" data-value="m-plus" type="button">M+</button>
+          <button class="key key--mem" data-action="mem" data-value="m-minus" type="button">M−</button>
+          <button class="key key--mem" data-action="mem" data-value="ms" type="button">MS</button>
+        </div>
+
+        <!-- Main keypad -->
+        <div class="keys keys--main">
+          <button class="key key--util" data-action="clear-entry" type="button">CE</button>
+          <button class="key key--util" data-action="clear" type="button">AC</button>
+          <button class="key key--util" data-action="backspace" type="button" title="Backspace (Backspace)">⌫</button>
+          <button class="key key--op" data-action="operator" data-value="/" type="button">÷</button>
+
+          <button class="key key--num" data-action="number" data-value="7" type="button">7</button>
+          <button class="key key--num" data-action="number" data-value="8" type="button">8</button>
+          <button class="key key--num" data-action="number" data-value="9" type="button">9</button>
+          <button class="key key--op" data-action="operator" data-value="*" type="button">×</button>
+
+          <button class="key key--num" data-action="number" data-value="4" type="button">4</button>
+          <button class="key key--num" data-action="number" data-value="5" type="button">5</button>
+          <button class="key key--num" data-action="number" data-value="6" type="button">6</button>
+          <button class="key key--op" data-action="operator" data-value="-" type="button">−</button>
+
+          <button class="key key--num" data-action="number" data-value="1" type="button">1</button>
+          <button class="key key--num" data-action="number" data-value="2" type="button">2</button>
+          <button class="key key--num" data-action="number" data-value="3" type="button">3</button>
+          <button class="key key--op" data-action="operator" data-value="+" type="button">+</button>
+
+          <button class="key key--num" data-action="sign" type="button">±</button>
+          <button class="key key--num" data-action="number" data-value="0" type="button">0</button>
+          <button class="key key--num" data-action="decimal" type="button">.</button>
+          <button class="key key--equals" data-action="equals" type="button">=</button>
+        </div>
+
+      </section>
+
+      <!-- History drawer: sibling glass pane, slides in -->
+      <aside class="drawer" id="historyDrawer" aria-label="Calculation history" aria-hidden="true">
+        <div class="drawer__header">
+          <h2 class="drawer__title">History</h2>
+          <button class="text-btn" id="clearHistory" type="button">Clear all</button>
+        </div>
+        <ol class="drawer__list" id="historyList">
+          <!-- History entries injected here by script.js -->
+        </ol>
+        <p class="drawer__empty" id="historyEmpty">No calculations yet. Your work will appear here as you go.</p>
+      </aside>
+
+    </main>
+
+    <!-- Settings panel: floating pane for theme + preferences -->
+    <aside class="settings" id="settingsPanel" aria-label="Settings" aria-hidden="true">
+      <div class="settings__header">
+        <h2 class="settings__title">Settings</h2>
+        <button class="icon-btn icon-btn--ghost" id="settingsClose" type="button" title="Close">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
+          <span class="sr-only">Close settings</span>
+        </button>
+      </div>
+
+      <div class="settings__group">
+        <span class="settings__label">Theme</span>
+        <div class="theme-grid" id="themeGrid">
+          <button class="theme-swatch" data-theme="aurora" type="button" title="Aurora"><span class="theme-swatch__dot"></span>Aurora</button>
+          <button class="theme-swatch" data-theme="dawn" type="button" title="Dawn"><span class="theme-swatch__dot"></span>Dawn</button>
+          <button class="theme-swatch" data-theme="noir" type="button" title="Noir"><span class="theme-swatch__dot"></span>Noir</button>
+          <button class="theme-swatch" data-theme="mint" type="button" title="Mint"><span class="theme-swatch__dot"></span>Mint</button>
+        </div>
+      </div>
+
+      <div class="settings__group">
+        <span class="settings__label">Number format</span>
+        <label class="toggle-row">
+          <span>Thousands separators</span>
+          <input type="checkbox" id="toggleSeparators" checked />
+        </label>
+        <label class="toggle-row">
+          <span>Reduce motion</span>
+          <input type="checkbox" id="toggleMotion" />
+        </label>
+        <label class="toggle-row">
+          <span>Sound feedback</span>
+          <input type="checkbox" id="toggleSound" />
+        </label>
+      </div>
+
+      <div class="settings__group">
+        <span class="settings__label">Keyboard shortcuts</span>
+        <ul class="shortcut-list">
+          <li><kbd>0–9</kbd><span>Digits</span></li>
+          <li><kbd>+ − * /</kbd><span>Operators</span></li>
+          <li><kbd>Enter</kbd><span>Equals</span></li>
+          <li><kbd>Backspace</kbd><span>Delete last</span></li>
+          <li><kbd>Esc</kbd><span>All clear</span></li>
+          <li><kbd>H</kbd><span>Toggle history</span></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Scrim shown behind drawer/settings on small screens -->
+    <div class="scrim" id="scrim" hidden></div>
+
+  </div>
+
+  <script src="js/script.js" defer></script>
+</body>
+</html>
