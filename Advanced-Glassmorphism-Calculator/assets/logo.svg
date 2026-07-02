@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="refract-a" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C93FF"/>
+      <stop offset="1" stop-color="#4FD1C5"/>
+    </linearGradient>
+    <linearGradient id="refract-b" x1="16" y1="2" x2="16" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF8B5E"/>
+      <stop offset="1" stop-color="#7C93FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer glass facet -->
+  <path d="M16 2 L28 11 L23.5 27 L8.5 27 L4 11 Z"
+        fill="url(#refract-a)" fill-opacity="0.18"
+        stroke="url(#refract-a)" stroke-width="1.4" stroke-linejoin="round"/>
+
+  <!-- Inner refraction lines -->
+  <path d="M16 2 L16 27 M4 11 L28 11 M8.5 27 L16 11 L23.5 27"
+        stroke="url(#refract-b)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+
+  <!-- Light catch -->
+  <circle cx="16" cy="11" r="1.6" fill="#E8ECFA"/>
+</svg>
