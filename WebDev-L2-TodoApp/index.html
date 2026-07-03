@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arclight — Your day, mapped</title>
+<meta name="description" content="Arclight is a premium task workspace that maps your day like an arc from sunrise to sunset." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="dusk">
+
+<!-- ============ SKIP LINK ============ -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- ============ APP SHELL ============ -->
+<div class="app-shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+    <div class="sidebar__brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
+          <path d="M4 22c4-10 20-10 24 0" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="16" cy="14" r="3.2" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="brand-name">Arclight</span>
+    </div>
+
+    <nav class="sidebar__nav" aria-label="Views">
+      <button class="nav-item is-active" data-view="dashboard" type="button">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><path d="M3 10.5 10 4l7 6.5M5 9v7h10V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-filter="today" type="button">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 8h14M7 2.5v3M13 2.5v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Today</span>
+        <span class="nav-count" id="count-today">0</span>
+      </button>
+      <button class="nav-item" data-filter="upcoming" type="button">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><path d="M10 5.5v5l3.2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10.5" r="7" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span>Upcoming</span>
+        <span class="nav-count" id="count-upcoming">0</span>
+      </button>
+      <button class="nav-item" data-filter="overdue" type="button">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><path d="M10 3 17.5 16H2.5L10 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 8.5v3.2M10 14v.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Overdue</span>
+        <span class="nav-count" id="count-overdue">0</span>
+      </button>
+      <button class="nav-item" data-filter="completed" type="button">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m7 10 2 2 4-4.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Completed</span>
+      </button>
+      <button class="nav-item" data-filter="archive" type="button">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="15" height="3.4" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="M4 7.5V15a1.5 1.5 0 0 0 1.5 1.5h9A1.5 1.5 0 0 0 16 15V7.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Archive</span>
+      </button>
+    </nav>
+
+    <div class="sidebar__section">
+      <div class="sidebar__section-head">
+        <span>Categories</span>
+      </div>
+      <ul class="category-list" id="category-list" aria-label="Categories"></ul>
+      <button class="add-category-btn" id="add-category-btn" type="button">
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        New category
+      </button>
+    </div>
+
+    <div class="sidebar__footer">
+      <div class="theme-switcher" role="radiogroup" aria-label="Theme">
+        <button class="theme-dot" data-theme-choice="light" role="radio" aria-checked="false" aria-label="Daybreak theme" title="Daybreak"></button>
+        <button class="theme-dot" data-theme-choice="dusk" role="radio" aria-checked="true" aria-label="Dusk theme" title="Dusk"></button>
+        <button class="theme-dot" data-theme-choice="midnight" role="radio" aria-checked="false" aria-label="Midnight theme" title="Midnight"></button>
+        <button class="theme-dot" data-theme-choice="ocean" role="radio" aria-checked="false" aria-label="Ocean theme" title="Ocean"></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main" id="main-content">
+
+    <!-- Mobile top bar -->
+    <div class="mobile-topbar">
+      <button class="icon-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+      <span class="brand-name">Arclight</span>
+      <button class="icon-btn" id="mobile-search-btn" aria-label="Search tasks">
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.7"/><path d="m17 17-4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <!-- ============ HERO / DASHBOARD HEADER ============ -->
+    <header class="dash-header" id="dash-header">
+      <div class="dash-header__intro">
+        <p class="dash-eyebrow" id="dash-date">Loading date…</p>
+        <h1 class="dash-greeting" id="dash-greeting">Welcome back</h1>
+        <p class="dash-subline" id="dash-subline">Here's how your day is shaping up.</p>
+      </div>
+
+      <!-- SIGNATURE ELEMENT: The Day Arc -->
+      <div class="day-arc-card" aria-hidden="false">
+        <svg class="day-arc" viewBox="0 0 300 170" role="img" aria-labelledby="day-arc-title">
+          <title id="day-arc-title">Arc of your day showing task completion and time of day</title>
+          <path class="arc-track" d="M20 150 A130 130 0 0 1 280 150" fill="none" stroke-linecap="round"/>
+          <path class="arc-fill" id="arc-fill" d="M20 150 A130 130 0 0 1 280 150" fill="none" stroke-linecap="round"/>
+          <g id="arc-dots"></g>
+          <g id="arc-sun-marker">
+            <circle r="6" class="arc-sun" />
+          </g>
+        </svg>
+        <div class="day-arc__stats">
+          <div class="day-arc__percent" id="completion-percent">0%</div>
+          <div class="day-arc__label">of today's arc complete</div>
+        </div>
+        <div class="day-arc__legend">
+          <span><i class="dot dot--done"></i>Done <b id="stat-completed">0</b></span>
+          <span><i class="dot dot--pending"></i>Remaining <b id="stat-remaining">0</b></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ QUICK ADD ============ -->
+    <section class="quick-add" aria-label="Quick add task">
+      <form id="quick-add-form" class="quick-add__form" autocomplete="off">
+        <svg class="quick-add__icon" viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="quick-add-input" placeholder="Add a task to today's arc… try “Finish deck by 5pm #work”" aria-label="Quick add task title" />
+        <button type="submit" class="btn btn--primary" id="quick-add-submit">Add task</button>
+        <button type="button" class="btn btn--ghost" id="open-full-form-btn">Details…</button>
+      </form>
+    </section>
+
+    <!-- ============ TOOLBAR: search + filters ============ -->
+    <section class="toolbar" aria-label="Search and filters">
+      <div class="search-box">
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.7"/><path d="m17 17-4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <input type="text" id="search-input" placeholder="Search tasks… (press /)" aria-label="Search tasks" />
+      </div>
+
+      <div class="filter-chips" id="filter-chips" role="tablist" aria-label="Task filters">
+        <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="chip" data-filter="today" role="tab" aria-selected="false">Today</button>
+        <button class="chip" data-filter="tomorrow" role="tab" aria-selected="false">Tomorrow</button>
+        <button class="chip" data-filter="week" role="tab" aria-selected="false">This week</button>
+        <button class="chip" data-filter="overdue" role="tab" aria-selected="false">Overdue</button>
+        <button class="chip" data-filter="pending" role="tab" aria-selected="false">Pending</button>
+        <button class="chip" data-filter="completed" role="tab" aria-selected="false">Completed</button>
+      </div>
+
+      <div class="toolbar__right">
+        <select id="priority-filter" class="select-input" aria-label="Filter by priority">
+          <option value="all">Any priority</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select id="sort-select" class="select-input" aria-label="Sort tasks">
+          <option value="manual">Manual order</option>
+          <option value="due">Due date</option>
+          <option value="priority">Priority</option>
+          <option value="created">Date created</option>
+          <option value="alpha">Alphabetical</option>
+        </select>
+        <button class="btn btn--icon" id="select-mode-btn" aria-pressed="false" title="Select multiple">
+          <svg viewBox="0 0 18 18" width="16" height="16" fill="none"><rect x="2.5" y="2.5" width="13" height="13" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="m5.5 9 2.2 2.2L12.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Bulk action bar -->
+    <div class="bulk-bar" id="bulk-bar" hidden>
+      <span id="bulk-count">0 selected</span>
+      <div class="bulk-bar__actions">
+        <button class="btn btn--ghost" id="bulk-complete-btn">Mark complete</button>
+        <button class="btn btn--ghost" id="bulk-delete-btn">Delete</button>
+        <button class="btn btn--ghost" id="bulk-cancel-btn">Cancel</button>
+      </div>
+    </div>
+
+    <!-- ============ CONTENT GRID: task list + side panel ============ -->
+    <div class="content-grid">
+
+      <!-- TASK LIST -->
+      <section class="task-panel" aria-label="Task list">
+        <div class="task-panel__head">
+          <h2 id="list-heading">Today's focus</h2>
+          <span class="task-panel__meta" id="list-meta"></span>
+        </div>
+        <ul class="task-list" id="task-list" aria-live="polite"></ul>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <svg viewBox="0 0 120 120" width="88" height="88" fill="none" aria-hidden="true">
+            <path d="M20 92c8-22 72-22 80 0" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".5"/>
+            <rect x="34" y="30" width="52" height="46" rx="8" stroke="currentColor" stroke-width="2.4"/>
+            <path d="M44 46h32M44 56h32M44 66h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+          <h3 id="empty-state-title">Nothing here yet</h3>
+          <p id="empty-state-body">Add a task above and it'll take its place on the arc.</p>
+        </div>
+      </section>
+
+      <!-- SIDE PANEL -->
+      <aside class="side-panel" aria-label="Calendar and statistics">
+        <button class="side-panel__toggle" id="side-panel-toggle" aria-expanded="true" aria-controls="side-panel-body">
+          <span>Overview</span>
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div id="side-panel-body">
+          <!-- Mini calendar -->
+          <div class="panel-card calendar-card">
+            <div class="calendar-card__head">
+              <button class="icon-btn icon-btn--sm" id="cal-prev" aria-label="Previous month">
+                <svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="m10 3-5 5 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <span id="cal-month-label">Month Year</span>
+              <button class="icon-btn icon-btn--sm" id="cal-next" aria-label="Next month">
+                <svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+            <div class="calendar-grid" id="calendar-weekdays"></div>
+            <div class="calendar-grid" id="calendar-days"></div>
+          </div>
+
+          <!-- Stats -->
+          <div class="panel-card stats-card">
+            <h3>This week</h3>
+            <div class="stats-row">
+              <div class="stat-block"><span class="stat-num" id="stat-created">0</span><span class="stat-lbl">Created</span></div>
+              <div class="stat-block"><span class="stat-num" id="stat-done-total">0</span><span class="stat-lbl">Completed</span></div>
+              <div class="stat-block"><span class="stat-num" id="stat-pending-total">0</span><span class="stat-lbl">Pending</span></div>
+            </div>
+            <svg class="week-chart" id="week-chart" viewBox="0 0 260 90" aria-label="Tasks completed per day this week"></svg>
+          </div>
+
+          <!-- Category breakdown -->
+          <div class="panel-card">
+            <h3>By category</h3>
+            <div id="category-breakdown" class="category-breakdown"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<!-- ============ FAB (mobile quick add) ============ -->
+<button class="fab" id="fab-add" aria-label="Add new task">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+
+<!-- ============ TASK MODAL (full form) ============ -->
+<div class="modal-overlay" id="task-modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" id="task-modal">
+    <div class="modal__head">
+      <h2 id="modal-title">New task</h2>
+      <button class="icon-btn" id="modal-close-btn" aria-label="Close dialog">
+        <svg viewBox="0 0 18 18" width="16" height="16" fill="none"><path d="m4 4 10 10M14 4 4 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <form id="task-form" class="modal__body">
+      <input type="hidden" id="task-id" />
+
+      <label class="field">
+        <span class="field__label">Title</span>
+        <input type="text" id="field-title" required maxlength="120" placeholder="What needs doing?" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">Description</span>
+        <textarea id="field-description" rows="2" maxlength="500" placeholder="Add more context (optional)"></textarea>
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">Category</span>
+          <select id="field-category"></select>
+        </label>
+        <label class="field">
+          <span class="field__label">Priority</span>
+          <select id="field-priority">
+            <option value="critical">Critical</option>
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">Due date</span>
+          <input type="date" id="field-date" />
+        </label>
+        <label class="field">
+          <span class="field__label">Due time</span>
+          <input type="time" id="field-time" />
+        </label>
+        <label class="field field--narrow">
+          <span class="field__label">Est. time</span>
+          <input type="text" id="field-estimate" placeholder="30m" maxlength="12" />
+        </label>
+      </div>
+
+      <label class="field">
+        <span class="field__label">Tags <span class="field__hint">comma separated</span></span>
+        <input type="text" id="field-tags" placeholder="deep-work, client" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">Notes</span>
+        <textarea id="field-notes" rows="2" maxlength="500" placeholder="Any extra notes"></textarea>
+      </label>
+
+      <div class="modal__footer">
+        <button type="button" class="btn btn--ghost" id="modal-cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn--primary" id="modal-save-btn">Save task</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ NEW CATEGORY MODAL ============ -->
+<div class="modal-overlay" id="category-modal-overlay" hidden>
+  <div class="modal modal--sm" role="dialog" aria-modal="true" aria-labelledby="cat-modal-title">
+    <div class="modal__head">
+      <h2 id="cat-modal-title">New category</h2>
+      <button class="icon-btn" id="cat-modal-close-btn" aria-label="Close dialog">
+        <svg viewBox="0 0 18 18" width="16" height="16" fill="none"><path d="m4 4 10 10M14 4 4 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <form id="category-form" class="modal__body">
+      <label class="field">
+        <span class="field__label">Name</span>
+        <input type="text" id="cat-name" required maxlength="24" placeholder="e.g. Finance" />
+      </label>
+      <label class="field">
+        <span class="field__label">Color</span>
+        <div class="color-swatches" id="color-swatches"></div>
+      </label>
+      <div class="modal__footer">
+        <button type="button" class="btn btn--ghost" id="cat-cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn--primary">Create category</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ TOAST CONTAINER ============ -->
+<div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
