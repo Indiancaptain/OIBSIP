@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cipher · Advanced Login Authentication System</title>
+<meta name="description" content="A premium, front-end-only authentication system built for Oasis Infobyte Web Development Internship Level 2 Task 4.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="splash">
+    <div class="splash__inner">
+      <span class="spinner"></span>
+      <p class="text-dim mono" style="font-size:0.82rem;">Checking session…</p>
+    </div>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    // Entry point: send authenticated users to their dashboard, everyone
+    // else to the sign-in screen. No flash of the wrong page thanks to the
+    // tiny splash + instant redirect.
+    window.location.replace(Auth.isAuthenticated() ? "dashboard.html" : "login.html");
+  </script>
+</body>
+</html>

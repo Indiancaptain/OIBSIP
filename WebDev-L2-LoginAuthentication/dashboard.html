@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Cipher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="app-shell">
+  <header class="topbar">
+    <div style="display:flex; align-items:center; gap:28px;">
+      <a class="brand" href="dashboard.html" style="color:var(--text)">
+        <span class="brand__mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        Cipher
+      </a>
+      <nav class="topbar__nav">
+        <a class="navlink is-active" href="dashboard.html">Dashboard</a>
+        <a class="navlink" href="profile.html">Profile</a>
+      </nav>
+    </div>
+    <div class="topbar__actions">
+      <button class="btn btn--icon" data-theme-toggle aria-label="Toggle dark mode" aria-pressed="false">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3v1M12 20v1M4.2 4.2l.8.8M19 19l.8.8M3 12h1M20 12h1M4.2 19.8l.8-.8M19 5l.8-.8M12 7a5 5 0 100 10 5 5 0 000-10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <button class="btn btn--danger btn--sm" id="logoutBtn">Sign out</button>
+      <div class="avatar" id="topAvatar" title="Account"></div>
+    </div>
+  </header>
+
+  <main class="page" id="main">
+    <div class="page-head fade-up">
+      <h1 id="greeting">Welcome back</h1>
+      <p>Here's what's happening with your account.</p>
+    </div>
+
+    <div class="grid fade-up">
+      <div class="col-8">
+        <div class="card welcome-card">
+          <div class="welcome-card__inner">
+            <h2 id="welcomeName">Hello there</h2>
+            <p>Your session is active and protected by client-side route guarding. Everything you see below is stored locally in your browser via <code>localStorage</code>.</p>
+            <div class="welcome-card__meta">
+              <span class="dot"></span>
+              <span id="sessionMeta">Session active</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card panel" style="margin-top:20px;">
+          <div class="panel__head">
+            <h2>Account statistics</h2>
+          </div>
+          <div class="stat-grid">
+            <div class="stat">
+              <b id="statMemberSince">—</b>
+              <span>Member since</span>
+            </div>
+            <div class="stat">
+              <b id="statLogins">0</b>
+              <span>Recorded sign-ins</span>
+            </div>
+            <div class="stat">
+              <b id="statSessionType">—</b>
+              <span>Session type</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card panel" style="margin-top:20px;">
+          <div class="panel__head">
+            <h2>Recent activity</h2>
+          </div>
+          <div class="activity-list" id="activityList">
+            <!-- injected -->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card panel">
+          <div class="panel__head">
+            <h2>Profile</h2>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div class="avatar avatar--lg" id="sideAvatar"></div>
+            <div>
+              <div style="font-weight:700;" id="sideName">—</div>
+              <div class="text-dim mono" style="font-size:0.8rem;" id="sideEmail">—</div>
+            </div>
+          </div>
+          <a href="profile.html" class="btn btn--ghost btn--block" style="margin-top:16px;">Edit profile</a>
+        </div>
+
+        <div class="card panel" style="margin-top:20px;">
+          <div class="panel__head">
+            <h2>Quick actions</h2>
+          </div>
+          <div class="quick-actions">
+            <a class="quick-action" href="profile.html">
+              <span class="quick-action__icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zM4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </span>
+              Edit profile details
+            </a>
+            <a class="quick-action" href="reset-password.html?email=" id="changePasswordLink">
+              <span class="quick-action__icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.8"/></svg>
+              </span>
+              Change password
+            </a>
+            <button class="quick-action" id="toggleThemeAction" type="button">
+              <span class="quick-action__icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </span>
+              Toggle dark / light theme
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="storage.js"></script>
+<script src="auth.js"></script>
+<script src="ui.js"></script>
+<script>
+  const user = Auth.requireAuth();
+  if (user) {
+    const session = Auth.getActiveSession();
+    const initials = user.fullName.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase();
+
+    function renderAvatar(el) {
+      if (user.avatar) {
+        el.innerHTML = `<span style="font-size:1.4rem">${user.avatar}</span>`;
+      } else {
+        el.textContent = initials;
+      }
+    }
+    renderAvatar(document.getElementById("topAvatar"));
+    renderAvatar(document.getElementById("sideAvatar"));
+
+    document.getElementById("greeting").textContent = `Welcome back, ${user.fullName.split(" ")[0]}`;
+    document.getElementById("welcomeName").textContent = `Hello, ${user.fullName.split(" ")[0]} 👋`;
+    document.getElementById("sideName").textContent = user.fullName;
+    document.getElementById("sideEmail").textContent = user.email;
+    document.getElementById("sessionMeta").textContent = session.remember
+      ? "Session active · remembered for 30 days"
+      : "Session active · expires when you close this browser";
+    document.getElementById("changePasswordLink").href = "profile.html#security";
+
+    document.getElementById("statMemberSince").textContent = new Date(user.createdAt).toLocaleDateString(undefined, { month: "short", year: "numeric" });
+    document.getElementById("statSessionType").textContent = session.remember ? "Remembered" : "Standard";
+
+    const activity = Storage.getActivity(user.email);
+    const logins = activity.filter((a) => a.type === "login").length;
+    document.getElementById("statLogins").textContent = String(logins || 1);
+
+    const list = document.getElementById("activityList");
+    if (activity.length === 0) {
+      list.innerHTML = `<p class="text-dim">No activity recorded yet.</p>`;
+    } else {
+      list.innerHTML = activity
+        .map(
+          (a) => `<div class="activity-item">
+            <span class="activity-item__dot"></span>
+            <span>${a.label}</span>
+            <span class="activity-item__time mono">${UI.formatRelativeTime(a.at)}</span>
+          </div>`
+        )
+        .join("");
+    }
+
+    document.getElementById("toggleThemeAction").addEventListener("click", () => {
+      document.querySelector("[data-theme-toggle]").click();
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      Auth.logoutUser();
+      UI.toast("You've been signed out.", "info");
+      setTimeout(() => window.location.replace("login.html"), 400);
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create account · Cipher</title>
+<meta name="description" content="Create your Cipher account.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="auth-shell">
+  <aside class="auth-panel" aria-hidden="true">
+    <div class="auth-panel__grid"></div>
+    <div class="auth-panel__content">
+      <div class="brand">
+        <span class="brand__mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        Cipher
+      </div>
+      <span class="auth-panel__eyebrow">Session-aware · client-side demo</span>
+      <h1 class="auth-panel__headline">Create an account, <em>own</em> your session.</h1>
+      <p class="auth-panel__sub">Your password never touches storage in plain text — it's salted and hashed with SHA-256 the moment you submit this form.</p>
+
+      <div class="ledger">
+        <div class="ledger__header"><span class="ledger__dot"></span> Live session ledger</div>
+        <div data-ledger></div>
+      </div>
+    </div>
+    <div class="auth-panel__stats">
+      <div class="auth-panel__stat"><b>8+</b><span>Char minimum</span></div>
+      <div class="auth-panel__stat"><b>4</b><span>Strength tiers</span></div>
+      <div class="auth-panel__stat"><b>100%</b><span>Client-side</span></div>
+    </div>
+  </aside>
+
+  <main class="form-panel" id="main">
+    <div class="form-panel__top">
+      <div class="brand" style="color:var(--text)">
+        <span class="brand__mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        Cipher
+      </div>
+      <button class="btn btn--icon" data-theme-toggle aria-label="Toggle dark mode" aria-pressed="false">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3v1M12 20v1M4.2 4.2l.8.8M19 19l.8.8M3 12h1M20 12h1M4.2 19.8l.8-.8M19 5l.8-.8M12 7a5 5 0 100 10 5 5 0 000-10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="form-panel__body fade-up">
+      <div class="form-header">
+        <h1>Create your account</h1>
+        <p>Already registered? <a href="login.html">Sign in instead</a></p>
+      </div>
+
+      <form id="registerForm" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label class="field__label" for="fullName">Full name</label>
+            <input class="field__input" type="text" id="fullName" name="fullName" autocomplete="name" placeholder="Jane Doe">
+            <span class="field__error" id="fullNameError"></span>
+          </div>
+          <div class="field">
+            <label class="field__label" for="username">Username</label>
+            <input class="field__input" type="text" id="username" name="username" autocomplete="username" placeholder="janedoe">
+            <span class="field__error" id="usernameError"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="email">Email address</label>
+          <input class="field__input" type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com">
+          <span class="field__error" id="emailError"></span>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="password">Password</label>
+          <div class="field__control">
+            <input class="field__input" type="password" id="password" name="password" autocomplete="new-password" placeholder="Create a password">
+            <button type="button" class="field__toggle" data-password-toggle="password" aria-label="Show password">
+              <svg class="eye" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none"><path d="M3 3l18 18M10.6 10.6a3 3 0 004.24 4.24M9.36 5.6A10.6 10.6 0 0112 5c6.5 0 10 7 10 7a13.8 13.8 0 01-3.2 4.1M6.3 6.3C4 7.8 2 12 2 12s2 4 6 6.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <span class="field__error" id="passwordError"></span>
+          <div class="strength" data-score="0">
+            <div class="strength__bars">
+              <div class="strength__bar"></div><div class="strength__bar"></div>
+              <div class="strength__bar"></div><div class="strength__bar"></div>
+            </div>
+            <div class="strength__label"><span>Password strength</span><b data-strength-label>—</b></div>
+            <div class="checklist">
+              <span class="checklist__item" data-check="length">8+ characters</span>
+              <span class="checklist__item" data-check="upper">Uppercase</span>
+              <span class="checklist__item" data-check="number">Number</span>
+              <span class="checklist__item" data-check="symbol">Symbol</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="confirmPassword">Confirm password</label>
+          <div class="field__control">
+            <input class="field__input" type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" placeholder="Re-enter your password">
+            <button type="button" class="field__toggle" data-password-toggle="confirmPassword" aria-label="Show password">
+              <svg class="eye" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none"><path d="M3 3l18 18M10.6 10.6a3 3 0 004.24 4.24M9.36 5.6A10.6 10.6 0 0112 5c6.5 0 10 7 10 7a13.8 13.8 0 01-3.2 4.1M6.3 6.3C4 7.8 2 12 2 12s2 4 6 6.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <span class="field__error" id="confirmPasswordError"></span>
+        </div>
+
+        <div class="form-aux" style="justify-content:flex-start">
+          <label class="checkbox">
+            <input type="checkbox" id="terms" name="terms">
+            I agree to the <a href="#" onclick="return false">Terms</a> and <a href="#" onclick="return false">Privacy Policy</a>
+          </label>
+        </div>
+        <span class="field__error" id="termsError" style="margin-top:-14px; margin-bottom:14px; display:block;"></span>
+
+        <button type="submit" class="btn btn--primary" id="submitBtn">Create account</button>
+      </form>
+
+      <p class="form-footer">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+  </main>
+</div>
+
+<script src="storage.js"></script>
+<script src="auth.js"></script>
+<script src="ui.js"></script>
+<script>
+  Auth.redirectIfAuthed();
+  UI.initLedger("[data-ledger]");
+
+  const form = document.getElementById("registerForm");
+  const fields = {
+    fullName: document.getElementById("fullName"),
+    username: document.getElementById("username"),
+    email: document.getElementById("email"),
+    password: document.getElementById("password"),
+    confirmPassword: document.getElementById("confirmPassword"),
+  };
+  const termsBox = document.getElementById("terms");
+  const submitBtn = document.getElementById("submitBtn");
+  const strengthEl = document.querySelector(".strength");
+  const strengthLabel = document.querySelector("[data-strength-label]");
+
+  Object.values(fields).forEach((el) => el.addEventListener("input", () => UI.clearFieldError(el)));
+  termsBox.addEventListener("change", () => {
+    if (termsBox.checked) document.getElementById("termsError").textContent = "";
+  });
+
+  fields.password.addEventListener("input", () => {
+    const { score, label, checks } = Auth.passwordStrength(fields.password.value);
+    strengthEl.dataset.score = String(score);
+    strengthLabel.textContent = fields.password.value ? label : "—";
+    Object.entries(checks).forEach(([key, passed]) => {
+      const mapKey = key === "lower" ? null : key; // lower isn't shown individually
+      if (!mapKey) return;
+      const el = strengthEl.querySelector(`[data-check="${mapKey}"]`);
+      if (el) el.classList.toggle("is-met", passed);
+    });
+  });
+
+  function showError(id, message) {
+    const el = document.getElementById(id);
+    document.getElementById(id + "Error").textContent = message;
+    el.closest(".field")?.classList.toggle("field--error", !!message);
+    el.setAttribute("aria-invalid", message ? "true" : "false");
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const errors = {
+      fullName: Auth.validateFullName(fields.fullName.value),
+      username: Auth.validateUsername(fields.username.value),
+      email: Auth.validateEmail(fields.email.value),
+      password: Auth.validatePassword(fields.password.value),
+      confirmPassword: Auth.validateConfirmPassword(fields.password.value, fields.confirmPassword.value),
+    };
+
+    Object.entries(errors).forEach(([key, msg]) => showError(key, msg));
+
+    const termsError = termsBox.checked ? "" : "You must accept the terms to continue.";
+    document.getElementById("termsError").textContent = termsError;
+
+    if (Object.values(errors).some(Boolean) || termsError) return;
+
+    UI.setButtonLoading(submitBtn, true, "Creating account…");
+    await new Promise((r) => setTimeout(r, 600));
+
+    const result = await Auth.registerUser({
+      fullName: fields.fullName.value,
+      username: fields.username.value,
+      email: fields.email.value,
+      password: fields.password.value,
+    });
+
+    if (!result.ok) {
+      UI.setButtonLoading(submitBtn, false);
+      showError(result.field, result.message);
+      UI.toast(result.message, "error");
+      return;
+    }
+
+    UI.toast("Account created. Signing you in…", "success");
+    await Auth.loginUser({ identifier: result.user.email, password: fields.password.value, remember: true });
+    setTimeout(() => window.location.replace("dashboard.html"), 500);
+  });
+</script>
+</body>
+</html>
